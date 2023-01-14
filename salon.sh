@@ -30,11 +30,12 @@ PSQL="psql -X --username=freecodecamp --dbname=salon --tuples-only -c"
       INSERT_CUSTOMER_INFO=$($PSQL "INSERT INTO customers(name,phone) VALUES('$CUSTOMER_NAME','$CUSTOMER_PHONE')")
     else
       CUSTOMER_NAME=$($PSQL "SELECT name FROM customers WHERE customer_id=$CUSTOMER_ID")
-      echo -e "\nWhat time would you like your$CHOOSED_SERIVCE_NAME, $CUSTOMER_NAME?"
-      read SERVICE_TIME
-      CUSTOMER_ID=$($PSQL "SELECT customer_id FROM customers WHERE phone='$CUSTOMER_PHONE' ")
-      INSERT_APPOINTMENT_INFO=$($PSQL "INSERT INTO appointments(customer_id,service_id,time) VALUES($CUSTOMER_ID,$SERVICE_ID_SELECTED,'$SERVICE_TIME')")
-      echo -e "\nI have put you down for a$CHOOSED_SERIVCE_NAME at $SERVICE_TIME,$CUSTOMER_NAME"
     fi
+    echo -e "\nWhat time would you like your$CHOOSED_SERIVCE_NAME, $CUSTOMER_NAME?"
+    read SERVICE_TIME
+    CUSTOMER_ID=$($PSQL "SELECT customer_id FROM customers WHERE phone='$CUSTOMER_PHONE' ")
+    INSERT_APPOINTMENT_INFO=$($PSQL "INSERT INTO appointments(customer_id,service_id,time) VALUES($CUSTOMER_ID,$SERVICE_ID_SELECTED,'$SERVICE_TIME')")
+    echo -e "\nI have put you down for a $(echo $CHOOSED_SERIVCE_NAME | sed -r 's/^ *| *$//g') at $SERVICE_TIME, $CUSTOMER_NAME."
+    
   fi
 
